@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz — TORCHS e Infecções Congênitas</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f4f8; color: #1a1a1a; min-height: 100vh; }
+  header { background: #1e3a5f; color: white; padding: 20px 30px; text-align: center; }
+  header h1 { font-size: 22px; margin-bottom: 4px; }
+  header p { font-size: 13px; opacity: 0.8; }
+  .quiz-container { max-width: 800px; margin: 30px auto; padding: 0 16px 60px; }
+  #startScreen { background: white; border-radius: 12px; padding: 40px; text-align: center; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+  #startScreen h2 { font-size: 20px; color: #1e3a5f; margin-bottom: 12px; }
+  #startScreen p { font-size: 14px; color: #555; margin-bottom: 24px; line-height: 1.6; }
+  .progress-bar-bg { background: #dde3ea; border-radius: 8px; height: 8px; margin-bottom: 8px; }
+  .progress-bar-fill { background: #2563eb; height: 8px; border-radius: 8px; transition: width 0.4s ease; }
+  .progress-label { font-size: 12px; color: #666; margin-bottom: 20px; }
+  .question-card { background: white; border-radius: 12px; padding: 28px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); margin-bottom: 16px; }
+  .question-number { font-size: 11px; font-weight: 700; text-transform: uppercase; color: #2563eb; letter-spacing: 1px; margin-bottom: 10px; }
+  .question-text { font-size: 15px; line-height: 1.65; color: #1a1a1a; margin-bottom: 22px; }
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .option-btn { background: #f7f9fc; border: 2px solid #dde3ea; border-radius: 8px; padding: 12px 16px; text-align: left; font-size: 14px; cursor: pointer; transition: background 0.15s, border-color 0.15s; line-height: 1.5; }
+  .option-btn:hover:not(:disabled) { background: #e8f0fe; border-color: #2563eb; }
+  .option-btn.correct { background: #d1fae5; border-color: #16a34a; color: #166534; }
+  .option-btn.wrong { background: #fee2e2; border-color: #dc2626; color: #991b1b; }
+  .option-btn:disabled { cursor: default; }
+  .explanation { display: none; background: #f0fdf4; border-left: 4px solid #16a34a; border-radius: 0 8px 8px 0; padding: 14px 16px; margin-top: 14px; font-size: 13px; line-height: 1.6; color: #166534; }
+  .explanation.show { display: block; }
+  .btn-next { display: none; margin-top: 18px; background: #2563eb; color: white; border: none; border-radius: 8px; padding: 12px 28px; font-size: 14px; font-weight: 600; cursor: pointer; transition: background 0.15s; }
+  .btn-next:hover { background: #1d4ed8; }
+  .btn-next.show { display: inline-block; }
+  .btn-primary { background: #2563eb; color: white; border: none; border-radius: 8px; padding: 14px 36px; font-size: 15px; font-weight: 600; cursor: pointer; transition: background 0.15s; }
+  .btn-primary:hover { background: #1d4ed8; }
+  #resultScreen { display: none; background: white; border-radius: 12px; padding: 40px; text-align: center; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+  .score-circle { width: 120px; height: 120px; border-radius: 50%; background: #1e3a5f; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 20px; }
+  .score-circle .score-num { font-size: 32px; font-weight: 700; }
+  .score-circle .score-denom { font-size: 13px; opacity: 0.8; }
+  #resultScreen h2 { font-size: 20px; color: #1e3a5f; margin-bottom: 10px; }
+  #resultScreen p { font-size: 14px; color: #555; margin-bottom: 24px; }
+  .stats-row { display: flex; justify-content: center; gap: 24px; margin-bottom: 28px; flex-wrap: wrap; }
+  .stat-box { background: #f7f9fc; border-radius: 8px; padding: 12px 20px; text-align: center; min-width: 90px; }
+  .stat-box .stat-val { font-size: 22px; font-weight: 700; }
+  .stat-box .stat-lbl { font-size: 11px; color: #888; margin-top: 2px; }
+  .stat-box.green .stat-val { color: #16a34a; }
+  .stat-box.red .stat-val { color: #dc2626; }
+  .stat-box.blue .stat-val { color: #2563eb; }
+</style>
+</head>
+<body>
+<header>
+  <h1>TORCHS — Infecções Congênitas e Perinatais</h1>
+  <p>Pediatria — Neonatologia</p>
+</header>
+<div class="quiz-container">
+  <div id="startScreen">
+    <h2>Quiz de Revisão</h2>
+    <p>20 questões cobrindo toxoplasmose, citomegalovírus, rubéola, sífilis congênita, HIV perinatal, hepatite B e C — diagnóstico, tratamento e prevenção.<br><br>Responda cada questão e veja a explicação antes de avançar.</p>
+    <button class="btn-primary" onclick="startQuiz()">Começar Quiz</button>
+  </div>
+  <div id="quizArea" style="display:none;">
+    <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressBar" style="width:0%"></div></div>
+    <div class="progress-label" id="progressLabel">Questão 0 de 20</div>
+    <div class="question-card" id="questionCard">
+      <div class="question-number" id="questionNumber"></div>
+      <div class="question-text" id="questionText"></div>
+      <div class="options" id="optionsContainer"></div>
+      <div class="explanation" id="explanation"></div>
+      <button class="btn-next" id="btnNext" onclick="nextQuestion()">Próxima questão →</button>
+    </div>
+  </div>
+  <div id="resultScreen">
+    <div class="score-circle">
+      <span class="score-num" id="scoreFinal">0</span>
+      <span class="score-denom" id="scoreDenom">de 20</span>
+    </div>
+    <h2 id="resultTitle"></h2>
+    <p id="resultMsg"></p>
+    <div class="stats-row">
+      <div class="stat-box green"><div class="stat-val" id="statCorrect">0</div><div class="stat-lbl">Acertos</div></div>
+      <div class="stat-box red"><div class="stat-val" id="statWrong">0</div><div class="stat-lbl">Erros</div></div>
+      <div class="stat-box blue"><div class="stat-val" id="statPct">0%</div><div class="stat-lbl">Aproveitamento</div></div>
+    </div>
+    <button class="btn-primary" onclick="restartQuiz()">Refazer Quiz</button>
+  </div>
+</div>
+<script>
+const rawQuestions = [
+  {
+    question: "Qual a 'Tétrade de Sabin' da toxoplasmose congênita?",
+    options: [
+      "Hidrocefalia + calcificações intracranianas difusas + coriorretinite + retardo psicomotor",
+      "Catarata + surdez + cardiopatia + microcefalia",
+      "Calcificações periventriculares + microcefalia + coriorretinite + hepatoesplenomegalia",
+      "Hidropisia fetal + anemia + hepatomegalia + icterícia grave",
+      "Petéquias + púrpura + hepatoesplenomegalia + icterícia com fezes acólicas"
+    ],
+    correctIndex: 0,
+    explanation: "Tétrade de Sabin (toxoplasmose congênita): (1) Hidrocefalia; (2) Calcificações intracranianas DIFUSAS (dispersas pelo parênquima — diferente do CMV que são periventriculares); (3) Coriorretinite; (4) Retardo psicomotor. Transmissão: T. gondii via placenta (primoinfecção materna). Tratamento: pirimetamina + sulfadiazina + ácido folínico por 12 meses."
+  },
+  {
+    question: "Qual a infecção congênita mais frequente no mundo?",
+    options: [
+      "Citomegalovírus (CMV) — responsável por 0,2–2% de todos os nascidos vivos",
+      "Toxoplasma gondii",
+      "Treponema pallidum (sífilis congênita)",
+      "Rubéola congênita",
+      "Herpes simplex vírus (HSV)"
+    ],
+    correctIndex: 0,
+    explanation: "CMV congênito: infecção congênita mais frequente do mundo (0,2–2% dos nascidos vivos). Maioria assintomática ao nascimento, mas 10–15% desenvolve sequelas (surdez neurossensorial, déficit cognitivo). Calcificações PERIVENTRICULARES (diferencia da toxoplasmose que são difusas). PCR em urina/saliva ≤21 dias confirma."
+  },
+  {
+    question: "Como confirmar o diagnóstico de CMV congênito?",
+    options: [
+      "PCR para CMV em urina ou saliva coletados até os 21 dias de vida — após 21 dias não distingue infecção congênita de perinatal",
+      "Sorologia IgM anti-CMV no sangue do RN ao nascimento",
+      "Cultura viral de medula óssea — padrão-ouro definitivo",
+      "PCR em sangue materno no 3º trimestre de gestação",
+      "Sorologia IgG anti-CMV — se positivo ao nascimento confirma infecção congênita"
+    ],
+    correctIndex: 0,
+    explanation: "CMV congênito: PCR em urina ou saliva ≤21 dias de vida (confirma infecção INTRAUTERINA). Após 21 dias: não distingue congênita de perinatal (adquirida no parto ou pelo leite). IgM anti-CMV pode ser falso-negativo em 30–40% dos casos. Tratamento: valganciclovir VO por 6 meses em RN sintomático com envolvimento neurológico."
+  },
+  {
+    question: "Qual é a tríade clássica da rubéola congênita?",
+    options: [
+      "Catarata + surdez neurossensorial + cardiopatia (PCA e/ou estenose pulmonar)",
+      "Hidrocefalia + calcificações difusas + coriorretinite",
+      "Micropenia + hepatoesplenomegalia + icterícia",
+      "Surdez + cegueira + retardo mental grave sem cardiopatia",
+      "Calcificações periventriculares + microcefalia + hepatite"
+    ],
+    correctIndex: 0,
+    explanation: "Síndrome da rubéola congênita: (1) Catarata (+ glaucoma, retinopatia); (2) Surdez neurossensorial; (3) Cardiopatia (persistência do canal arterial — PCA e estenose pulmonar). Também: microcefalia, hepatoesplenomegalia, púrpura, RCIU. Risco 85–90% no 1º trimestre. Prevenção: vacinação SCR pré-concepcional."
+  },
+  {
+    question: "Qual o tratamento da toxoplasmose congênita?",
+    options: [
+      "Pirimetamina + sulfadiazina + ácido folínico por 12 meses (independentemente de ser sintomática ou assintomática)",
+      "Espiramicina por 3 meses somente nos casos sintomáticos",
+      "Ganciclovir endovenoso por 6 semanas",
+      "Pirimetamina isolada por 6 meses em todos os casos",
+      "Apenas corticoide para reduzir a inflamação do SNC"
+    ],
+    correctIndex: 0,
+    explanation: "Toxoplasmose congênita: pirimetamina + sulfadiazina + ácido folínico (para prevenir mielotoxicidade da pirimetamina) por 12 MESES — mesmo nos casos assintomáticos ao nascimento (pois podem desenvolver sequelas tardias). Adicionar corticoide (prednisona) se coriorretinite ativa ou proteína no LCR >1 g/dL."
+  },
+  {
+    question: "Qual o sinal radiológico clássico da sífilis congênita que afeta a tíbia?",
+    options: [
+      "Sinal de Wimberger — erosão óssea bilateral na metáfise medial da tíbia (aspecto de 'tíbia em sabre')",
+      "Sinal de Caffey — periostite difusa com reação periosteal exuberante",
+      "Sinal de Wimberger — calcificações periventriculares na TC de crânio",
+      "Sinal de Parrot — linhas transversas de rarefação na metáfise ('osso em zebra')",
+      "Sinal de Hutchinson — dentes em barril com entalhe central"
+    ],
+    correctIndex: 0,
+    explanation: "Sinal de Wimberger: erosão/destruição bilateral da metáfise medial da tíbia — achado patognomônico da sífilis congênita no Rx ósseo. Sinal de Parrot: linhas de rarefação metafisária. Tríade de Hutchinson (sífilis tardia): dentes em barril + ceratite intersticial + surdez. Tratamento: benzilpenicilina cristalina 10 dias."
+  },
+  {
+    question: "Qual o tratamento de escolha para sífilis congênita?",
+    options: [
+      "Benzilpenicilina cristalina (penicilina G sódica) endovenosa por 10 dias",
+      "Penicilina benzatina IM dose única",
+      "Amoxicilina oral por 14 dias",
+      "Azitromicina oral por 5 dias",
+      "Ceftriaxona endovenosa por 7 dias"
+    ],
+    correctIndex: 0,
+    explanation: "Sífilis congênita: benzilpenicilina cristalina (penicilina G) EV por 10 dias. Penicilina benzatina IM pode ser usada em casos selecionados (mãe tratada corretamente, RN assintomático, VDRL do RN <4x o materno e acompanhamento garantido). Ceftriaxona NÃO é aceita como alternativa à penicilina na sífilis congênita."
+  },
+  {
+    question: "Por que o aleitamento materno é CONTRAINDICADO em mães HIV positivas no Brasil?",
+    options: [
+      "O HIV é transmitido pelo leite materno; no Brasil há disponibilidade de fórmula infantil gratuita, tornando o risco de transmissão pelo leite desnecessário — proibido mesmo com carga viral indetectável",
+      "A amamentação não é proibida; é permitida se a mãe tiver carga viral indetectável por pelo menos 6 meses",
+      "A amamentação é proibida apenas no 1º mês de vida, quando o RN está mais vulnerável",
+      "É proibida apenas em mães com CD4 <200 células/mm³",
+      "A proibição vale apenas para mães sem acesso à TARV"
+    ],
+    correctIndex: 0,
+    explanation: "Brasil: aleitamento materno PROIBIDO em mães HIV+ independentemente da carga viral ou do uso de TARV — pois há acesso gratuito à fórmula infantil (estratégia da OMS para países com recursos). Diferente de países pobres onde o risco de mortalidade por diarreias > risco HIV pelo leite. A amamentação representa risco adicional de 14–29% de transmissão."
+  },
+  {
+    question: "Qual a profilaxia do HIV perinatal no recém-nascido?",
+    options: [
+      "AZT (zidovudina) oral por 28 dias + nevirapina em casos de alto risco — iniciado até 4 horas após o nascimento",
+      "AZT IM por 7 dias apenas nos casos em que a mãe não usou TARV",
+      "TARV tripla (3 antirretrovirais) por 6 meses em todos os RN de mães HIV+",
+      "Apenas imunoglobulina anti-HIV IV nas primeiras 12 horas",
+      "Nenhuma profilaxia é necessária se a mãe tiver carga viral indetectável no parto"
+    ],
+    correctIndex: 0,
+    explanation: "Profilaxia pós-exposição neonatal: AZT (zidovudina) oral por 28 dias, iniciado até 4h após o nascimento. Adicionar nevirapina (3 doses) ou lopinavir/ritonavir em situações de alto risco (mãe sem TARV, carga viral detectável, adesão ruim). Não amamentar. PCR DNA HIV: 1ª entre 4–6 semanas, 2ª entre 2–4 meses."
+  },
+  {
+    question: "Qual o risco de transmissão vertical do HIV perinatal e como a TARV materna o modifica?",
+    options: [
+      "Sem TARV: 25–30% (gravidez + parto + amamentação); com TARV efetiva + parto cesáreo + não amamentação: <1%",
+      "Sem TARV: 5% apenas no parto; com TARV: elimina completamente o risco",
+      "Com TARV: 10%; sem TARV: 50% — a cesárea não reduz o risco adicionalmente",
+      "O risco é sempre <2% independentemente do tratamento materno",
+      "TARV reduz o risco apenas durante a amamentação, não durante a gestação"
+    ],
+    correctIndex: 0,
+    explanation: "HIV perinatal: sem TARV, risco 25–30% (gestação ~2%, parto ~18%, amamentação ~14% adicional). Com TARV efetiva + carga viral indetectável + cesárea eletiva + fórmula infantil: risco <1%. Objetivo: carga viral indetectável antes do parto. AZT IV intraparto em mães com CV detectável ou sem TARV."
+  },
+  {
+    question: "Qual o risco de cronicidade da hepatite B adquirida no período perinatal?",
+    options: [
+      "90% dos RN infectados perinatalmente desenvolvem hepatite B crônica (versus 5–10% nos adultos imunocompetentes)",
+      "50% de cronicidade, igual ao risco em adultos jovens",
+      "5–10% de cronicidade, mesmo risco que em adultos imunocompetentes",
+      "100% de cronicidade apenas em prematuros extremos",
+      "O risco de cronicidade é mínimo (<1%) se vacinado ao nascimento"
+    ],
+    correctIndex: 0,
+    explanation: "Hepatite B perinatal: 90% de cronicidade (sistema imune imaturo do RN não consegue eliminar o vírus). Adultos: 5–10%. Prevenção: vacina anti-HBV + imunoglobulina anti-hepatite B (IGHAHB) nas primeiras 12–24h de vida → eficácia >95% na prevenção da infecção. Mãe HBsAg+ → RN deve receber ambos."
+  },
+  {
+    question: "Qual a conduta ao nascimento do filho de mãe HBsAg positivo?",
+    options: [
+      "Vacina anti-HBV + imunoglobulina hiperimune anti-hepatite B (IGHAHB) administradas nos primeiros 12–24 horas de vida em sítios diferentes",
+      "Apenas vacina anti-HBV ao nascimento; IGHAHB não está disponível no SUS",
+      "IGHAHB no nascimento e vacina anti-HBV aos 2 meses",
+      "Apenas vigilância sorológica; profilaxia não é necessária se a mãe fez pré-natal",
+      "Vacina anti-HBV e IGHAHB somente se HBeAg materno for positivo"
+    ],
+    correctIndex: 0,
+    explanation: "Filho de mãe HBsAg+: vacina anti-HBV + IGHAHB (0,5 mL IM) nas primeiras 12–24h em sítios diferentes. Completar esquema vacinal (3 doses totais). Sorologia de controle (HBsAg + anti-HBs) aos 9–18 meses. Aleitamento materno pode ser mantido se profilaxia foi feita corretamente. Eficácia >95% na prevenção da hepatite B crônica."
+  },
+  {
+    question: "Por que o anti-HCV materno não é diagnóstico de infecção pelo HCV no RN?",
+    options: [
+      "O anti-HCV é uma IgG que passa pela placenta e pode permanecer no RN por até 18 meses sem representar infecção ativa — diagnóstico definitivo só pelo PCR RNA-HCV após 2 meses",
+      "O anti-HCV é uma IgM que não atravessa a placenta; portanto, se positivo no RN, confirma infecção ativa",
+      "O anti-HCV não é detectável no sangue de RN pois a placenta o bloqueia ativamente",
+      "O anti-HCV materno protege o RN durante 6 meses e confirma ausência de infecção",
+      "Anti-HCV positivo no RN indica sempre hepatite C congênita que requer tratamento imediato"
+    ],
+    correctIndex: 0,
+    explanation: "Anti-HCV é IgG → atravessa a placenta passivamente → pode persistir no RN por até 18 meses sem representar infecção. Diagnóstico de HCV congênito: PCR RNA-HCV após 2 meses (ou anti-HCV após 18 meses, quando anticorpos maternos já desapareceram). Risco de transmissão vertical do HCV: 3–5% (aumenta com coinfecção HIV ou RNA-HCV elevado)."
+  },
+  {
+    question: "Qual o exame diagnóstico de escolha para CMV congênito e qual a janela temporal para realizá-lo?",
+    options: [
+      "PCR para CMV em urina ou saliva — deve ser realizado até os 21 dias de vida para distinguir infecção congênita de perinatal",
+      "Sorologia IgM anti-CMV no sangue do RN — pode ser realizada a qualquer momento",
+      "PCR para CMV em sangue materno durante a gestação — exame feito na mãe confirma o feto",
+      "Cultura viral do LCR — padrão-ouro definitivo sem restrição de tempo",
+      "Tomografia de crânio com calcificações — diagnóstico clínico sem necessidade de exame laboratorial"
+    ],
+    correctIndex: 0,
+    explanation: "CMV congênito: PCR em urina ou saliva ≤21 dias de vida. Se colhido após 21 dias, não é possível distinguir infecção congênita (intrauterina) de perinatal (parto ou leite materno). IgM tem sensibilidade de apenas 60–70%. Calcificações periventriculares na TC/USG de crânio são altamente sugestivas. Tratamento: valganciclovir 6 meses se sintomático neurológico."
+  },
+  {
+    question: "RN com VDRL 1:16, mãe com VDRL 1:4 tratada com penicilina há 2 meses. Qual a interpretação e conduta?",
+    options: [
+      "VDRL do RN ≥4x o materno (1:16 vs 1:4) = provável sífilis congênita — investigar completamente e tratar com penicilina cristalina EV por 10 dias",
+      "VDRL do RN 1:16 é anticorpo materno passivo; alta sem tratamento",
+      "Mãe tratada = RN não precisa de tratamento independentemente do VDRL neonatal",
+      "Repetir VDRL em 30 dias; se mantiver titulação, tratar",
+      "Tratar apenas com penicilina benzatina IM dose única"
+    ],
+    correctIndex: 0,
+    explanation: "Sífilis congênita: VDRL do RN ≥4 vezes o materno (neste caso: 1:16 ÷ 1:4 = 4x) = critério diagnóstico de sífilis congênita. Tratamento: benzilpenicilina cristalina 100.000–150.000 UI/kg/dia EV por 10 dias. Investigar: hemograma, LCR, Rx ossos longos, FTA-Abs IgM, avaliação oftalmológica e auditiva."
+  },
+  {
+    question: "Qual a principal sequela tardia do CMV congênito assintomático ao nascimento?",
+    options: [
+      "Surdez neurossensorial progressiva (pode se manifestar ou piorar meses a anos após o nascimento)",
+      "Cegueira por coriorretinite progressiva",
+      "Hidrocefalia obstrutiva por calcificações periventriculares",
+      "Cardiopatia congênita por comprometimento do miocárdio",
+      "RN assintomático ao nascimento nunca desenvolve sequelas tardias"
+    ],
+    correctIndex: 0,
+    explanation: "CMV congênito assintomático (90% dos casos): 10–15% desenvolve sequelas tardias. A principal é a SURDEZ NEUROSSENSORIAL progressiva — pode surgir ou piorar nos primeiros 2 anos de vida. Outras sequelas tardias: déficit cognitivo, epilepsia, déficit visual. Por isso, todo RN com CMV congênito deve ter acompanhamento auditivo regular."
+  },
+  {
+    question: "Qual sinal ocular é típico da toxoplasmose congênita?",
+    options: [
+      "Coriorretinite (lesão pigmentada com área central despigmentada na retina) — pode ser bilateral e levar à cegueira",
+      "Catarata nuclear bilateral com leucocoria",
+      "Glaucoma congênito com megalocórnea e fotofobia",
+      "Ceratite intersticial com opacificação córnea",
+      "Retinopatia da prematuridade por vasoconstrição retiniana"
+    ],
+    correctIndex: 0,
+    explanation: "Toxoplasmose congênita: coriorretinite (inflamação da coroide e retina) — lesão pigmentada com centro claro, pode ser bilateral, progressiva e levar à cegueira. Presente em 80–90% dos casos ao nascimento ou como sequela tardia. Tratar com pirimetamina + sulfadiazina + ácido folínico; adicionar prednisona se coriorretinite ativa."
+  },
+  {
+    question: "Qual a profilaxia de transmissão vertical do HIV durante o trabalho de parto?",
+    options: [
+      "AZT endovenoso intraparto (2 mg/kg EV em 1 hora, depois 1 mg/kg/hora até o clampeamento do cordão) — indicado em mães com carga viral detectável ou sem TARV",
+      "Penicilina benzatina IM profilática em todas as parturientes HIV+",
+      "AZT oral no início do trabalho de parto, dose única",
+      "Nevirapina oral dose única para a mãe e o RN ao nascimento",
+      "Nenhuma intervenção adicional se a mãe estiver em TARV há mais de 6 meses"
+    ],
+    correctIndex: 0,
+    explanation: "Intraparto: AZT EV (2 mg/kg na 1ª hora, depois 1 mg/kg/hora até clampeamento do cordão) — indicado quando carga viral >1.000 cópias/mL, desconhecida, ou sem TARV. Parto cesáreo eletivo reduz transmissão se CV >1.000. RN: AZT oral 4 mg/kg/dose 12/12h por 28 dias ± nevirapina conforme risco."
+  },
+  {
+    question: "Qual a diferença entre as calcificações intracranianas da toxoplasmose congênita e do CMV congênito?",
+    options: [
+      "Toxoplasmose: calcificações DIFUSAS (dispersas pelo parênquima cerebral); CMV: calcificações PERIVENTRICULARES (ao redor dos ventrículos)",
+      "Toxoplasmose: calcificações periventriculares; CMV: calcificações difusas no parênquima",
+      "Ambas têm calcificações periventriculares; diferem apenas pela quantidade",
+      "CMV não causa calcificações; apenas toxoplasmose produz esse achado",
+      "Toxoplasmose causa calcificações apenas na fossa posterior; CMV nos hemisférios"
+    ],
+    correctIndex: 0,
+    explanation: "Calcificações intracranianas: TOXOPLASMOSE = difusas (dispersas pelo parênquima cerebral, em múltiplas regiões) + hidrocefalia frequente. CMV = PERIVENTRICULARES (ao redor dos ventrículos laterais, em faixa). Essa distinção é clássica em provas e diagnóstico diferencial. Ambas causam microcefalia e sequelas neurológicas."
+  },
+  {
+    question: "Quais são os sinais precoces de sífilis congênita presentes no período neonatal?",
+    options: [
+      "Rinite sifilítica ('coriza sifilítica' sanguinolenta), hepatoesplenomegalia, icterícia, lesões cutâneas (pênfigo sifilítico palmo-plantar), pseudoparalisia de Parrot (por osteocondrite dolorosa)",
+      "Catarata bilateral + surdez + cardiopatia congênita",
+      "Hidrocefalia + convulsões + calcificações difusas",
+      "Coriorretinite + ascite + edema generalizado",
+      "Apenas exantema maculopapular generalizado sem outros sinais sistêmicos"
+    ],
+    correctIndex: 0,
+    explanation: "Sífilis congênita precoce (<2 anos): rinite sifilítica (coriza sanguinolenta — muito contagiosa), hepatoesplenomegalia, icterícia, pênfigo sifilítico (bolhas nas palmas e plantas), pseudoparalisia de Parrot (dor óssea → criança não move o membro afetado). Sinal de Wimberger no Rx. VDRL e FTA-Abs são os principais exames."
+  }
+];
+
+function shuffleQuestion(q) {
+  const correctText = q.options[q.correctIndex];
+  const shuffled = [...q.options];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return { ...q, options: shuffled, correctIndex: shuffled.indexOf(correctText) };
+}
+function prepareQuestions() {
+  const shuffledQs = [...rawQuestions];
+  for (let i = shuffledQs.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffledQs[i], shuffledQs[j]] = [shuffledQs[j], shuffledQs[i]];
+  }
+  return shuffledQs.map(shuffleQuestion);
+}
+let questions = [], currentIndex = 0, score = 0, answered = 0;
+function startQuiz() {
+  questions = prepareQuestions(); currentIndex = 0; score = 0; answered = 0;
+  document.getElementById('startScreen').style.display = 'none';
+  document.getElementById('resultScreen').style.display = 'none';
+  document.getElementById('quizArea').style.display = 'block';
+  renderQuestion();
+}
+function renderQuestion() {
+  const q = questions[currentIndex]; const total = questions.length;
+  document.getElementById('progressBar').style.width = ((currentIndex / total) * 100) + '%';
+  document.getElementById('progressLabel').textContent = `Questão ${currentIndex + 1} de ${total}`;
+  document.getElementById('questionNumber').textContent = `Questão ${currentIndex + 1}`;
+  document.getElementById('questionText').textContent = q.question;
+  const container = document.getElementById('optionsContainer'); container.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button'); btn.className = 'option-btn'; btn.textContent = opt;
+    btn.onclick = () => selectAnswer(i); container.appendChild(btn);
+  });
+  document.getElementById('explanation').classList.remove('show');
+  document.getElementById('explanation').textContent = '';
+  document.getElementById('btnNext').classList.remove('show');
+}
+function selectAnswer(selectedIndex) {
+  const q = questions[currentIndex]; const buttons = document.querySelectorAll('.option-btn');
+  buttons.forEach(btn => btn.disabled = true);
+  if (selectedIndex === q.correctIndex) { buttons[selectedIndex].classList.add('correct'); score++; }
+  else { buttons[selectedIndex].classList.add('wrong'); buttons[q.correctIndex].classList.add('correct'); }
+  answered++;
+  const exp = document.getElementById('explanation'); exp.textContent = q.explanation; exp.classList.add('show');
+  const btnNext = document.getElementById('btnNext');
+  btnNext.textContent = currentIndex < questions.length - 1 ? 'Próxima questão →' : 'Ver resultado';
+  btnNext.classList.add('show');
+}
+function nextQuestion() {
+  currentIndex++;
+  if (currentIndex < questions.length) { renderQuestion(); } else { showResult(); }
+}
+function showResult() {
+  document.getElementById('quizArea').style.display = 'none';
+  document.getElementById('resultScreen').style.display = 'block';
+  const total = questions.length; const pct = Math.round((score / total) * 100);
+  document.getElementById('scoreFinal').textContent = score;
+  document.getElementById('scoreDenom').textContent = `de ${total}`;
+  document.getElementById('statCorrect').textContent = score;
+  document.getElementById('statWrong').textContent = total - score;
+  document.getElementById('statPct').textContent = pct + '%';
+  let title, msg;
+  if (pct >= 90) { title = 'Excelente!'; msg = 'Domínio completo do conteúdo. Você está preparado para a prova.'; }
+  else if (pct >= 70) { title = 'Muito bom!'; msg = 'Bom domínio geral. Revise os pontos onde errou antes da prova.'; }
+  else if (pct >= 50) { title = 'Razoável'; msg = 'Ainda há pontos a consolidar. Releia o relatório e refaça o quiz.'; }
+  else { title = 'Precisa revisar'; msg = 'Recomendo reler o relatório completo antes de tentar novamente.'; }
+  document.getElementById('resultTitle').textContent = title;
+  document.getElementById('resultMsg').textContent = msg;
+}
+function restartQuiz() { startQuiz(); }
+</script>
+</body>
+</html>
