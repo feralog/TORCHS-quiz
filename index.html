@@ -90,8 +90,8 @@ const rawQuestions = [
   {
     question: "Qual a 'Tétrade de Sabin' da toxoplasmose congênita?",
     options: [
-      "Hidrocefalia + calcificações intracranianas difusas + coriorretinite + retardo psicomotor",
-      "Catarata + surdez + cardiopatia + microcefalia",
+      "Hidrocefalia + calcificações difusas + coriorretinite + retardo psicomotor",
+      "Catarata + surdez neurossensorial + cardiopatia + microcefalia",
       "Calcificações periventriculares + microcefalia + coriorretinite + hepatoesplenomegalia",
       "Hidropisia fetal + anemia + hepatomegalia + icterícia grave",
       "Petéquias + púrpura + hepatoesplenomegalia + icterícia com fezes acólicas"
@@ -102,11 +102,11 @@ const rawQuestions = [
   {
     question: "Qual a infecção congênita mais frequente no mundo?",
     options: [
-      "Citomegalovírus (CMV) — responsável por 0,2–2% de todos os nascidos vivos",
-      "Toxoplasma gondii",
-      "Treponema pallidum (sífilis congênita)",
-      "Rubéola congênita",
-      "Herpes simplex vírus (HSV)"
+      "CMV (citomegalovírus) — 0,2–2% dos nascidos vivos",
+      "Toxoplasma gondii — protozoário intracelular obrigatório",
+      "Treponema pallidum — bactéria causadora da sífilis congênita",
+      "Vírus da rubéola (Togavirus, gênero Rubivirus)",
+      "Herpes simplex vírus (HSV) — causa encefalite neonatal"
     ],
     correctIndex: 0,
     explanation: "CMV congênito: infecção congênita mais frequente do mundo (0,2–2% dos nascidos vivos). Maioria assintomática ao nascimento, mas 10–15% desenvolve sequelas (surdez neurossensorial, déficit cognitivo). Calcificações PERIVENTRICULARES (diferencia da toxoplasmose que são difusas). PCR em urina/saliva ≤21 dias confirma."
@@ -114,11 +114,11 @@ const rawQuestions = [
   {
     question: "Como confirmar o diagnóstico de CMV congênito?",
     options: [
-      "PCR para CMV em urina ou saliva coletados até os 21 dias de vida — após 21 dias não distingue infecção congênita de perinatal",
+      "PCR em urina/saliva ≤21 dias de vida — confirma CMV congênito",
       "Sorologia IgM anti-CMV no sangue do RN ao nascimento",
       "Cultura viral de medula óssea — padrão-ouro definitivo",
       "PCR em sangue materno no 3º trimestre de gestação",
-      "Sorologia IgG anti-CMV — se positivo ao nascimento confirma infecção congênita"
+      "IgG anti-CMV — positivo ao nascimento confirmaria infecção congênita"
     ],
     correctIndex: 0,
     explanation: "CMV congênito: PCR em urina ou saliva ≤21 dias de vida (confirma infecção INTRAUTERINA). Após 21 dias: não distingue congênita de perinatal (adquirida no parto ou pelo leite). IgM anti-CMV pode ser falso-negativo em 30–40% dos casos. Tratamento: valganciclovir VO por 6 meses em RN sintomático com envolvimento neurológico."
@@ -126,7 +126,7 @@ const rawQuestions = [
   {
     question: "Qual é a tríade clássica da rubéola congênita?",
     options: [
-      "Catarata + surdez neurossensorial + cardiopatia (PCA e/ou estenose pulmonar)",
+      "Catarata + surdez neurossensorial + cardiopatia (PCA)",
       "Hidrocefalia + calcificações difusas + coriorretinite",
       "Micropenia + hepatoesplenomegalia + icterícia",
       "Surdez + cegueira + retardo mental grave sem cardiopatia",
@@ -138,9 +138,9 @@ const rawQuestions = [
   {
     question: "Qual o tratamento da toxoplasmose congênita?",
     options: [
-      "Pirimetamina + sulfadiazina + ácido folínico por 12 meses (independentemente de ser sintomática ou assintomática)",
+      "Pirimetamina + sulfadiazina + ácido folínico por 12 meses",
       "Espiramicina por 3 meses somente nos casos sintomáticos",
-      "Ganciclovir endovenoso por 6 semanas",
+      "Ganciclovir endovenoso por 6 semanas (em casos graves)",
       "Pirimetamina isolada por 6 meses em todos os casos",
       "Apenas corticoide para reduzir a inflamação do SNC"
     ],
@@ -150,10 +150,10 @@ const rawQuestions = [
   {
     question: "Qual o sinal radiológico clássico da sífilis congênita que afeta a tíbia?",
     options: [
-      "Sinal de Wimberger — erosão óssea bilateral na metáfise medial da tíbia (aspecto de 'tíbia em sabre')",
+      "Sinal de Wimberger — erosão óssea bilateral na metáfise medial da tíbia",
       "Sinal de Caffey — periostite difusa com reação periosteal exuberante",
       "Sinal de Wimberger — calcificações periventriculares na TC de crânio",
-      "Sinal de Parrot — linhas transversas de rarefação na metáfise ('osso em zebra')",
+      "Sinal de Parrot — rarefação metafisária transversal ('osso em zebra')",
       "Sinal de Hutchinson — dentes em barril com entalhe central"
     ],
     correctIndex: 0,
@@ -162,11 +162,11 @@ const rawQuestions = [
   {
     question: "Qual o tratamento de escolha para sífilis congênita?",
     options: [
-      "Benzilpenicilina cristalina (penicilina G sódica) endovenosa por 10 dias",
-      "Penicilina benzatina IM dose única",
-      "Amoxicilina oral por 14 dias",
-      "Azitromicina oral por 5 dias",
-      "Ceftriaxona endovenosa por 7 dias"
+      "Benzilpenicilina cristalina (penicilina G) EV por 10 dias",
+      "Penicilina benzatina IM em dose única para todos os casos",
+      "Amoxicilina oral por 14 dias para casos ambulatoriais",
+      "Azitromicina oral dose única para casos leves",
+      "Ceftriaxona endovenosa por 7 dias em internados"
     ],
     correctIndex: 0,
     explanation: "Sífilis congênita: benzilpenicilina cristalina (penicilina G) EV por 10 dias. Penicilina benzatina IM pode ser usada em casos selecionados (mãe tratada corretamente, RN assintomático, VDRL do RN <4x o materno e acompanhamento garantido). Ceftriaxona NÃO é aceita como alternativa à penicilina na sífilis congênita."
@@ -174,9 +174,9 @@ const rawQuestions = [
   {
     question: "Por que o aleitamento materno é CONTRAINDICADO em mães HIV positivas no Brasil?",
     options: [
-      "O HIV é transmitido pelo leite materno; no Brasil há disponibilidade de fórmula infantil gratuita, tornando o risco de transmissão pelo leite desnecessário — proibido mesmo com carga viral indetectável",
-      "A amamentação não é proibida; é permitida se a mãe tiver carga viral indetectável por pelo menos 6 meses",
-      "A amamentação é proibida apenas no 1º mês de vida, quando o RN está mais vulnerável",
+      "HIV no leite — proibida no Brasil mesmo com CV indetectável",
+      "É permitida se a mãe tiver carga viral indetectável por 6 meses",
+      "A amamentação é proibida apenas no 1º mês de vida do RN",
       "É proibida apenas em mães com CD4 <200 células/mm³",
       "A proibição vale apenas para mães sem acesso à TARV"
     ],
@@ -186,11 +186,11 @@ const rawQuestions = [
   {
     question: "Qual a profilaxia do HIV perinatal no recém-nascido?",
     options: [
-      "AZT (zidovudina) oral por 28 dias + nevirapina em casos de alto risco — iniciado até 4 horas após o nascimento",
+      "AZT oral 28 dias (até 4h do nascimento) + nevirapina se alto risco",
       "AZT IM por 7 dias apenas nos casos em que a mãe não usou TARV",
-      "TARV tripla (3 antirretrovirais) por 6 meses em todos os RN de mães HIV+",
+      "TARV tripla (3 antirretrovirais) por 6 meses em todos os RN HIV+",
       "Apenas imunoglobulina anti-HIV IV nas primeiras 12 horas",
-      "Nenhuma profilaxia é necessária se a mãe tiver carga viral indetectável no parto"
+      "Sem necessidade de profilaxia se mãe com carga viral indetectável"
     ],
     correctIndex: 0,
     explanation: "Profilaxia pós-exposição neonatal: AZT (zidovudina) oral por 28 dias, iniciado até 4h após o nascimento. Adicionar nevirapina (3 doses) ou lopinavir/ritonavir em situações de alto risco (mãe sem TARV, carga viral detectável, adesão ruim). Não amamentar. PCR DNA HIV: 1ª entre 4–6 semanas, 2ª entre 2–4 meses."
@@ -198,7 +198,7 @@ const rawQuestions = [
   {
     question: "Qual o risco de transmissão vertical do HIV perinatal e como a TARV materna o modifica?",
     options: [
-      "Sem TARV: 25–30% (gravidez + parto + amamentação); com TARV efetiva + parto cesáreo + não amamentação: <1%",
+      "Sem TARV: 25–30%; com TARV + cesárea + não amamentação: <1%",
       "Sem TARV: 5% apenas no parto; com TARV: elimina completamente o risco",
       "Com TARV: 10%; sem TARV: 50% — a cesárea não reduz o risco adicionalmente",
       "O risco é sempre <2% independentemente do tratamento materno",
@@ -210,7 +210,7 @@ const rawQuestions = [
   {
     question: "Qual o risco de cronicidade da hepatite B adquirida no período perinatal?",
     options: [
-      "90% dos RN infectados perinatalmente desenvolvem hepatite B crônica (versus 5–10% nos adultos imunocompetentes)",
+      "90% de cronicidade nos RN infectados perinatalmente",
       "50% de cronicidade, igual ao risco em adultos jovens",
       "5–10% de cronicidade, mesmo risco que em adultos imunocompetentes",
       "100% de cronicidade apenas em prematuros extremos",
@@ -222,10 +222,10 @@ const rawQuestions = [
   {
     question: "Qual a conduta ao nascimento do filho de mãe HBsAg positivo?",
     options: [
-      "Vacina anti-HBV + imunoglobulina hiperimune anti-hepatite B (IGHAHB) administradas nos primeiros 12–24 horas de vida em sítios diferentes",
-      "Apenas vacina anti-HBV ao nascimento; IGHAHB não está disponível no SUS",
+      "Vacina anti-HBV + IGHAHB nos primeiros 12–24h em sítios diferentes",
+      "Apenas vacina anti-HBV ao nascimento; IGHAHB dispensável",
       "IGHAHB no nascimento e vacina anti-HBV aos 2 meses",
-      "Apenas vigilância sorológica; profilaxia não é necessária se a mãe fez pré-natal",
+      "Apenas vigilância sorológica; sem profilaxia após pré-natal",
       "Vacina anti-HBV e IGHAHB somente se HBeAg materno for positivo"
     ],
     correctIndex: 0,
@@ -234,7 +234,7 @@ const rawQuestions = [
   {
     question: "Por que o anti-HCV materno não é diagnóstico de infecção pelo HCV no RN?",
     options: [
-      "O anti-HCV é uma IgG que passa pela placenta e pode permanecer no RN por até 18 meses sem representar infecção ativa — diagnóstico definitivo só pelo PCR RNA-HCV após 2 meses",
+      "Anti-HCV é IgG que passa pela placenta e persiste até 18 meses no RN — diagnóstico pelo PCR após 2 meses",
       "O anti-HCV é uma IgM que não atravessa a placenta; portanto, se positivo no RN, confirma infecção ativa",
       "O anti-HCV não é detectável no sangue de RN pois a placenta o bloqueia ativamente",
       "O anti-HCV materno protege o RN durante 6 meses e confirma ausência de infecção",
@@ -246,11 +246,11 @@ const rawQuestions = [
   {
     question: "Qual o exame diagnóstico de escolha para CMV congênito e qual a janela temporal para realizá-lo?",
     options: [
-      "PCR para CMV em urina ou saliva — deve ser realizado até os 21 dias de vida para distinguir infecção congênita de perinatal",
+      "PCR em urina/saliva ≤21 dias de vida — distingue infecção congênita de perinatal",
       "Sorologia IgM anti-CMV no sangue do RN — pode ser realizada a qualquer momento",
-      "PCR para CMV em sangue materno durante a gestação — exame feito na mãe confirma o feto",
+      "PCR em sangue materno na gestação — exame na mãe confirma infecção fetal",
       "Cultura viral do LCR — padrão-ouro definitivo sem restrição de tempo",
-      "Tomografia de crânio com calcificações — diagnóstico clínico sem necessidade de exame laboratorial"
+      "TC de crânio com calcificações — diagnóstico clínico sem exame laboratorial"
     ],
     correctIndex: 0,
     explanation: "CMV congênito: PCR em urina ou saliva ≤21 dias de vida. Se colhido após 21 dias, não é possível distinguir infecção congênita (intrauterina) de perinatal (parto ou leite materno). IgM tem sensibilidade de apenas 60–70%. Calcificações periventriculares na TC/USG de crânio são altamente sugestivas. Tratamento: valganciclovir 6 meses se sintomático neurológico."
@@ -258,11 +258,11 @@ const rawQuestions = [
   {
     question: "RN com VDRL 1:16, mãe com VDRL 1:4 tratada com penicilina há 2 meses. Qual a interpretação e conduta?",
     options: [
-      "VDRL do RN ≥4x o materno (1:16 vs 1:4) = provável sífilis congênita — investigar completamente e tratar com penicilina cristalina EV por 10 dias",
+      "VDRL RN 4x materno = sífilis congênita — penicilina G EV por 10 dias",
       "VDRL do RN 1:16 é anticorpo materno passivo; alta sem tratamento",
-      "Mãe tratada = RN não precisa de tratamento independentemente do VDRL neonatal",
-      "Repetir VDRL em 30 dias; se mantiver titulação, tratar",
-      "Tratar apenas com penicilina benzatina IM dose única"
+      "Mãe tratada = RN não precisa de tratamento independente do VDRL",
+      "Repetir VDRL em 30 dias; se a titulação se mantiver, iniciar tratamento",
+      "Tratar apenas com penicilina benzatina IM, em dose única isolada"
     ],
     correctIndex: 0,
     explanation: "Sífilis congênita: VDRL do RN ≥4 vezes o materno (neste caso: 1:16 ÷ 1:4 = 4x) = critério diagnóstico de sífilis congênita. Tratamento: benzilpenicilina cristalina 100.000–150.000 UI/kg/dia EV por 10 dias. Investigar: hemograma, LCR, Rx ossos longos, FTA-Abs IgM, avaliação oftalmológica e auditiva."
@@ -270,8 +270,8 @@ const rawQuestions = [
   {
     question: "Qual a principal sequela tardia do CMV congênito assintomático ao nascimento?",
     options: [
-      "Surdez neurossensorial progressiva (pode se manifestar ou piorar meses a anos após o nascimento)",
-      "Cegueira por coriorretinite progressiva",
+      "Surdez neurossensorial progressiva que pode surgir após o nascimento",
+      "Cegueira por coriorretinite necrotizante e progressiva",
       "Hidrocefalia obstrutiva por calcificações periventriculares",
       "Cardiopatia congênita por comprometimento do miocárdio",
       "RN assintomático ao nascimento nunca desenvolve sequelas tardias"
@@ -282,10 +282,10 @@ const rawQuestions = [
   {
     question: "Qual sinal ocular é típico da toxoplasmose congênita?",
     options: [
-      "Coriorretinite (lesão pigmentada com área central despigmentada na retina) — pode ser bilateral e levar à cegueira",
-      "Catarata nuclear bilateral com leucocoria",
-      "Glaucoma congênito com megalocórnea e fotofobia",
-      "Ceratite intersticial com opacificação córnea",
+      "Coriorretinite — lesão pigmentada com área despigmentada na retina",
+      "Catarata nuclear bilateral com leucocoria ao reflexo vermelho",
+      "Glaucoma congênito com megalocórnea, fotofobia e epífora",
+      "Ceratite intersticial bilateral com opacificação progressiva da córnea",
       "Retinopatia da prematuridade por vasoconstrição retiniana"
     ],
     correctIndex: 0,
@@ -294,9 +294,9 @@ const rawQuestions = [
   {
     question: "Qual a profilaxia de transmissão vertical do HIV durante o trabalho de parto?",
     options: [
-      "AZT endovenoso intraparto (2 mg/kg EV em 1 hora, depois 1 mg/kg/hora até o clampeamento do cordão) — indicado em mães com carga viral detectável ou sem TARV",
+      "AZT EV intraparto (2 mg/kg + manutenção) — indicado se carga viral detectável",
       "Penicilina benzatina IM profilática em todas as parturientes HIV+",
-      "AZT oral no início do trabalho de parto, dose única",
+      "AZT oral no início do trabalho de parto em dose única simplificada",
       "Nevirapina oral dose única para a mãe e o RN ao nascimento",
       "Nenhuma intervenção adicional se a mãe estiver em TARV há mais de 6 meses"
     ],
@@ -306,11 +306,11 @@ const rawQuestions = [
   {
     question: "Qual a diferença entre as calcificações intracranianas da toxoplasmose congênita e do CMV congênito?",
     options: [
-      "Toxoplasmose: calcificações DIFUSAS (dispersas pelo parênquima cerebral); CMV: calcificações PERIVENTRICULARES (ao redor dos ventrículos)",
-      "Toxoplasmose: calcificações periventriculares; CMV: calcificações difusas no parênquima",
+      "Toxoplasmose: difusas pelo parênquima; CMV: periventriculares",
+      "Toxoplasmose: periventriculares; CMV: difusas no parênquima",
       "Ambas têm calcificações periventriculares; diferem apenas pela quantidade",
       "CMV não causa calcificações; apenas toxoplasmose produz esse achado",
-      "Toxoplasmose causa calcificações apenas na fossa posterior; CMV nos hemisférios"
+      "Toxoplasmose: calcificações na fossa posterior; CMV: nos hemisférios"
     ],
     correctIndex: 0,
     explanation: "Calcificações intracranianas: TOXOPLASMOSE = difusas (dispersas pelo parênquima cerebral, em múltiplas regiões) + hidrocefalia frequente. CMV = PERIVENTRICULARES (ao redor dos ventrículos laterais, em faixa). Essa distinção é clássica em provas e diagnóstico diferencial. Ambas causam microcefalia e sequelas neurológicas."
@@ -318,10 +318,10 @@ const rawQuestions = [
   {
     question: "Quais são os sinais precoces de sífilis congênita presentes no período neonatal?",
     options: [
-      "Rinite sifilítica ('coriza sifilítica' sanguinolenta), hepatoesplenomegalia, icterícia, lesões cutâneas (pênfigo sifilítico palmo-plantar), pseudoparalisia de Parrot (por osteocondrite dolorosa)",
-      "Catarata bilateral + surdez + cardiopatia congênita",
-      "Hidrocefalia + convulsões + calcificações difusas",
-      "Coriorretinite + ascite + edema generalizado",
+      "Rinite sifilítica, pênfigo palmo-plantar, hepatomegalia e pseudoparalisia de Parrot",
+      "Catarata bilateral + surdez neurossensorial + cardiopatia congênita",
+      "Hidrocefalia + convulsões + calcificações difusas intracranianas",
+      "Coriorretinite bilateral + ascite + edema generalizado (anasarca)",
       "Apenas exantema maculopapular generalizado sem outros sinais sistêmicos"
     ],
     correctIndex: 0,
